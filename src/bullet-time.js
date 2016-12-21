@@ -2,6 +2,9 @@ class BulletTime {
     constructor() {
         this._index = [];
         this._freeId = 0;
+        this._playing = false;
+        this._timer = new Worker("bullet-worker.js");
+        this._timer.addEventListener("message", this._messageReceived);
     }
 
     addEvent(time, callback) {
@@ -22,13 +25,29 @@ class BulletTime {
 
     play() {
         // Begins playback from the current position.
+        this._playing = true;
+        this._timer.postMessage({
+            type: "play"
+        });
     }
 
     pause() {
         // Pauses playback at the current position.
+        this._playing = false;
+        this._timer.postMessage({
+            type: "pause"
+        });
     }
 
-    seek() {
+    seek(time) {
         // Seeks the timeline to the specified position.
+        this._timer.postMessage({
+            type: "seek",
+            time
+        });
+    }
+
+    _messageReceived() {
+        // Processes messages received from the worker
     }
 }
