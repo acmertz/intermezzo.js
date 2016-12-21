@@ -1,31 +1,34 @@
-const _index = [];
+class BulletTime {
+    constructor() {
+        this.index = [];
+        this.freeId = 0;
+    }
 
-let freeId = 0;
+    addEvent(time, callback) {
+        // Adds an event to the timeline and returns its ID. Accepts an optional callback function as a parameter.
+        this.index.push({
+            id: this.freeId,
+            callback: callback
+        });
+        this.freeId++;
+        return this.freeId - 1;
+    }
 
-export function addEvent (time, callback) {
-    // Adds an event to the timeline and returns its ID. Accepts an optional callback function as a parameter.
-    _index.push({
-        id: freeId,
-        callback: callback
-    });
-    freeId++;
-    return freeId - 1;
-}
+    removeEvent(id) {
+        // Removes the event with the given ID from the timeline.
+        let result = this.index.filter((obj) => obj.id === id);
+        if (result) this.index.splice(this.index.indexOf(result), 1);
+    }
 
-export function removeEvent (id) {
-    // Removes the event with the given ID from the timeline.
-    let result = _index.filter((obj) => obj.id === id);
-    if (result) _index.splice(_index.indexOf(result), 1);
-}
+    play() {
+        // Begins playback from the current position.
+    }
 
-export function play () {
-    // Begins playback from the current position.
-}
+    pause() {
+        // Pauses playback at the current position.
+    }
 
-export function pause () {
-    // Pauses playback at the current position.
-}
-
-export function seek () {
-    // Seeks the timeline to the specified position.
+    seek() {
+        // Seeks the timeline to the specified position.
+    }
 }
