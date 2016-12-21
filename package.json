@@ -1,0 +1,31 @@
+{
+  "name": "bullet-time",
+  "version": "1.0.0",
+  "description": "Virtual timeline for triggering scheduled events",
+  "main": "bullet-time.js",
+  "scripts": {
+    "build": "babel src -d build",
+    "clean": "rimraf build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acmertz/bullet-time.git"
+  },
+  "keywords": [
+    "timeline",
+    "worker",
+    "schedule",
+    "event"
+  ],
+  "author": "Aaron Mertzenich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/acmertz/bullet-time/issues"
+  },
+  "homepage": "https://github.com/acmertz/bullet-time#readme",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-latest": "^6.16.0",
+    "rimraf": "^2.5.4"
+  }
+}
