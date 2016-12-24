@@ -7,13 +7,22 @@ class BulletTime {
         this._timer.addEventListener("message", this._messageReceived);
     }
 
-    addEvent(time, callback) {
+    addEvent(time, duration, callback) {
         // Adds an event to the timeline and returns its ID. Accepts an optional callback function as a parameter.
         this._index.push({
             id: this._freeId,
-            time: time,
-            callback: callback
+            time,
+            duration,
+            callback
         });
+
+        this._timer.postMessage({
+            type: "add",
+            id: this._freeId,
+            time,
+            duration
+        });
+
         return this._freeId++;
     }
 
@@ -21,6 +30,11 @@ class BulletTime {
         // Removes the event with the given ID from the timeline.
         let result = this._index.filter((obj) => obj.id === id);
         if (result) this._index.splice(this._index.indexOf(result), 1);
+
+        this._timer.postMessage({
+            type: "remove",
+            id
+        });
     }
 
     play() {
@@ -54,7 +68,8 @@ class BulletTime {
         })
     }
 
-    _messageReceived() {
+    _messageReceived(message) {
         // Processes messages received from the worker
+
     }
 }

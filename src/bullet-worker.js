@@ -1,4 +1,5 @@
-const delay = 10;
+const delay = 10,
+    index = [];
 
 let timer = null,
     lastTime = 0,
@@ -35,6 +36,10 @@ addEventListener("message", (message) => {
             break;
         case "time":
             console.log(lastTime - startTime);
+            break;
+        case "add":
+            break;
+        case "remove":
             break;
     }
 });
