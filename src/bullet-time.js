@@ -47,6 +47,13 @@ class BulletTime {
         });
     }
 
+    time() {
+        // Logs the current playback time
+        this._timer.postMessage({
+            type: "time"
+        })
+    }
+
     _messageReceived() {
         // Processes messages received from the worker
     }
