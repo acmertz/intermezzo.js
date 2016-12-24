@@ -12,6 +12,30 @@ function processTime () {
         diff = elapsed - delay;
     lastTime = currentTime;
 
+    for (let i=0; i<index.length; i++) {
+        const currentItem = index[i];
+        if (currentItem.playing) {
+            // Check if the event should end
+            if (currentTime > currentItem.time + currentItem.duration) {
+                currentItem.playing = false;
+                postMessage({
+                    id: currentItem.id,
+                    type: "end"
+                });
+            }
+        }
+        else {
+            // Check if the event should begin
+            if (currentTime > currentItem.time && currentItem.time + currentItem.duration > currentTime) {
+                currentItem.playing = true;
+                postMessage({
+                    id: currentItem.id,
+                    type: "begin"
+                });
+            }
+        }
+    }
+
     if (playing) {
         const nextTimeout = delay - diff;
         timer = setTimeout(processTime, nextTimeout);
@@ -38,8 +62,13 @@ addEventListener("message", (message) => {
             console.log(lastTime - startTime);
             break;
         case "add":
+            let newEvent = message.data;
+            newEvent.playing = false;
+            index.push(newEvent);
             break;
         case "remove":
+            let result = index.filter((obj) => obj.id === message.data.id);
+            if (result) this.index.splice(this.index.indexOf(result), 1);
             break;
     }
 });

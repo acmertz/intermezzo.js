@@ -70,6 +70,13 @@ class BulletTime {
 
     _messageReceived(message) {
         // Processes messages received from the worker
-
+        switch (message.data.type) {
+            case "begin":
+                console.info(`Event ${message.data.id} started`);
+                break;
+            case "end":
+                console.info(`Event ${message.data.id} ended`);
+                break;
+        }
     }
 }
