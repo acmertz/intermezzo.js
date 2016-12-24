@@ -1,7 +1,7 @@
-const delay = 10,
-    index = [];
+const index = [];
 
 let timer = null,
+    precision = 10,
     lastTime = 0,
     startTime = 0,
     playing = false;
@@ -9,7 +9,7 @@ let timer = null,
 function processTime () {
     const currentTime = performance.now(),
         elapsed = currentTime - lastTime,
-        diff = elapsed - delay;
+        diff = elapsed - precision;
     lastTime = currentTime;
 
     for (let i=0; i<index.length; i++) {
@@ -37,7 +37,7 @@ function processTime () {
     }
 
     if (playing) {
-        const nextTimeout = delay - diff;
+        const nextTimeout = precision - diff;
         timer = setTimeout(processTime, nextTimeout);
     }
     else {
@@ -51,7 +51,7 @@ addEventListener("message", (message) => {
         case "play":
             playing = true;
             lastTime = performance.now();
-            timer = setTimeout(processTime, delay);
+            timer = setTimeout(processTime, precision);
             break;
         case "pause":
             playing = false;
