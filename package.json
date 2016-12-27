@@ -7,7 +7,7 @@
     "build": "babel src -d build && ncp index.html build/index.html",
     "serve": "http-server build",
     "clean": "rimraf build",
-    "watch": "npm run build && onchange 'src/*.js' -- npm run build",
+    "watch": "npm run build && onchange \"src/*.js\" \"index.html\" -- npm run build",
     "start": "npm-run-all --parallel watch serve"
   },
   "repository": {
