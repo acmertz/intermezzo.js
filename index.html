@@ -1,7 +1,52 @@
 <!doctype html>
 <html>
-    <head></head>
+    <head>
+        <meta charset="utf-8">
+        <title>BulletTime</title>
+        <style>
+            body{font-family:sans-serif}
+            .output {
+                display: block;
+                border: 1px dotted gray;
+                height: 400px;
+                width: 100%;
+                overflow-y: scroll;
+                overflow-x: auto;
+                background-color: #eee;
+            }
+        </style>
+    </head>
     <body>
         <script src="bullet-time.js"></script>
+        <script>var bullet = new BulletTime();</script>
+        <h1>BulletTime</h1>
+        <p>
+            <button type="button" onclick="bullet.play()">Play</button>
+            <button type="button" onclick="bullet.pause()">Pause</button>
+            <button type="button" onclick="bullet.time()">Log time</button>
+        </p>
+        <p>
+            <input type="number" placeholder="0" class="seek-time">
+            <button type="button" onclick="bullet.seek(document.getElementsByClassName('seek-time')[0].value)">Seek</button>
+        </p>
+
+        <h2>Output</h2>
+        <code class="output">Coming soon.</code>
+
+        <h2>Examples</h2>
+        <h3>Create a new instance of BulletTime:</h3>
+        <code>var bullet = new BulletTime()</code>
+
+        <h3>Add an event to the timeline:</h3>
+        <code>var eventId = bullet.addEvent(time, duration, callback)</code>
+
+        <h3>Begin playback:</h3>
+        <code>bullet.play()</code>
+
+        <h3>Pause playback:</h3>
+        <code>bullet.pause()</code>
+        
+        <h3>Seek to a time in milliseconds:</h3>
+        <code>bullet.seek(time)</code>
     </body>
 </html>
