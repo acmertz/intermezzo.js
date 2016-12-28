@@ -17,8 +17,6 @@
         </style>
     </head>
     <body>
-        <script src="bullet-time.js"></script>
-        <script>var bullet = new BulletTime();</script>
         <h1>BulletTime</h1>
         <p>
             <button type="button" onclick="bullet.play()">Play</button>
@@ -48,5 +46,17 @@
         
         <h3>Seek to a time in milliseconds:</h3>
         <code>bullet.seek(time)</code>
+
+        <script src="bullet-time.js"></script>
+        <script>
+            var bullet = new BulletTime(),
+                output = document.getElementsByClassName("output")[0];
+            bullet.registerCallback("begin", (obj) => {output.innerHTML += "\n" + obj.type});
+            bullet.registerCallback("end", (obj) => {output.innerHTML += "\n" + obj.type});
+            bullet.registerCallback("play", (obj) => {output.innerHTML += "\n" + obj.type});
+            bullet.registerCallback("pause", (obj) => {output.innerHTML += "\n" + obj.type});
+            bullet.registerCallback("seek", (obj) => {output.innerHTML += "\n" + obj.type});
+            bullet.registerCallback("time", (obj) => {output.innerHTML += "\n" + obj.type});
+        </script>
     </body>
 </html>
