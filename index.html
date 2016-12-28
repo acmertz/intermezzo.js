@@ -29,7 +29,7 @@
         </p>
 
         <h2>Output</h2>
-        <code class="output">Coming soon.</code>
+        <code class="output"></code>
 
         <h2>Examples</h2>
         <h3>Create a new instance of BulletTime:</h3>
@@ -51,12 +51,13 @@
         <script>
             var bullet = new BulletTime(),
                 output = document.getElementsByClassName("output")[0];
-            bullet.registerCallback("begin", (obj) => {output.innerHTML += "\n" + obj.type});
-            bullet.registerCallback("end", (obj) => {output.innerHTML += "\n" + obj.type});
-            bullet.registerCallback("play", (obj) => {output.innerHTML += "\n" + obj.type});
-            bullet.registerCallback("pause", (obj) => {output.innerHTML += "\n" + obj.type});
-            bullet.registerCallback("seek", (obj) => {output.innerHTML += "\n" + obj.type});
-            bullet.registerCallback("time", (obj) => {output.innerHTML += "\n" + obj.type});
+
+            bullet.registerCallback("begin", (obj) => {output.innerHTML += "Begin event: " + obj.id + "<br>"});
+            bullet.registerCallback("end", (obj) => {output.innerHTML += "End event: " + obj.id + "<br>"});
+            bullet.registerCallback("play", (obj) => {output.innerHTML += "Started playback." + "<br>"});
+            bullet.registerCallback("pause", (obj) => {output.innerHTML += "Paused playback." + "<br>"});
+            bullet.registerCallback("seek", (obj) => {output.innerHTML += "Seeked to " + obj.time + "<br>"});
+            bullet.registerCallback("time", (obj) => {output.innerHTML += "Time: " + obj.time + "<br>"});
         </script>
     </body>
 </html>
