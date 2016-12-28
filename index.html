@@ -23,13 +23,25 @@
             <button type="button" onclick="bullet.pause()">Pause</button>
             <button type="button" onclick="bullet.time()">Log time</button>
         </p>
+        <hr>
         <p>
-            <input type="number" placeholder="0" class="seek-time">
-            <button type="button" onclick="bullet.seek(document.getElementsByClassName('seek-time')[0].value)">Seek</button>
+            <input type="number" value="0" class="seek-time">
+            <button type="button" onclick="bullet.seek(parseFloat(seekTime.value))">Seek</button>
+        </p>
+        <hr>
+        <p>
+            <label><span>Start time:</span><br><input type="number" value="2000" class="start-time"></label>
+        </p>
+        <p>
+            <label><span>Duration:</span><br><input type="number" value="2000" class="duration-time"></label>
+        </p>
+        <p>
+            <button type="button" onclick="bullet.addEvent(parseFloat(startTime.value), parseFloat(durationTime.value), null)">Add event</button>
         </p>
 
         <h2>Output</h2>
-        <code class="output"></code>
+        <p><code class="output"></code></p>
+        <p><button type="button" onclick="output.innerHTML = ''">Clear</button></p>
 
         <h2>Examples</h2>
         <h3>Create a new instance of BulletTime:</h3>
@@ -50,7 +62,10 @@
         <script src="bullet-time.js"></script>
         <script>
             var bullet = new BulletTime(),
-                output = document.getElementsByClassName("output")[0];
+                output = document.getElementsByClassName("output")[0],
+                seekTime = document.getElementsByClassName("seek-time")[0],
+                startTime = document.getElementsByClassName("start-time")[0],
+                durationTime = document.getElementsByClassName("duration-time")[0];
             
             function scrollToBottom () {
                 output.scrollTop = output.scrollHeight - output.clientHeight;

@@ -12,9 +12,10 @@ function processTime () {
 
     for (let i=0; i<index.length; i++) {
         const currentItem = index[i];
-        if (currentItem.playing) {
-            // Check if the event should end
-            if (lastTime > currentItem.time + currentItem.duration) {
+
+        // Check if the event should end
+        if (lastTime > currentItem.time + currentItem.duration) {
+            if (currentItem.playing) {
                 currentItem.playing = false;
                 postMessage({
                     id: currentItem.id,
@@ -22,9 +23,10 @@ function processTime () {
                 });
             }
         }
-        else {
-            // Check if the event should begin
-            if (lastTime > currentItem.time && currentItem.time + currentItem.duration > lastTime) {
+
+        // Check if the event should begin
+        else if (lastTime > currentItem.time && currentItem.time + currentItem.duration > lastTime) {
+            if (!currentItem.playing) {
                 currentItem.playing = true;
                 postMessage({
                     id: currentItem.id,

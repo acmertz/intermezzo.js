@@ -96,13 +96,9 @@ class BulletTime {
         let callbackData = {type: message.data.type};
         switch (message.data.type) {
             case "begin":
-                console.info(`Event ${message.data.id} started`);
-                callbackData = {
-                    id: message.data.id
-                };
+                callbackData.id = message.data.id;
                 break;
             case "end":
-                console.info(`Event ${message.data.id} ended`);
                 callbackData.id = message.data.id;
                 break;
             case "play":
