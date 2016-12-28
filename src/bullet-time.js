@@ -1,10 +1,11 @@
 class BulletTime {
     constructor() {
         this._index = [];
+        this._callbacks = [];
         this._freeId = 0;
         this._playing = false;
         this._timer = new Worker("bullet-worker.js");
-        this._timer.addEventListener("message", this._messageReceived);
+        this._timer.addEventListener("message", (message) => this._messageReceived(message));
     }
 
     addEvent(time, duration, callback) {
@@ -68,15 +69,60 @@ class BulletTime {
         })
     }
 
+    registerCallback(type, callback) {
+        // Registers a callback function for one of the following values for type: begin, end, play, pause, seek, time
+        if (typeof type === "string" && typeof callback === "function") {
+            this._callbacks.push({
+                type,
+                callback
+            })
+        }
+    }
+
+    unregisterCallback(type, callback) {
+        // Unregisters a callback function for one of the following values for type: begin, end, play, pause, seek, time
+        if (typeof type === "string" && typeof callback === "function") {
+            let i = this._callbacks.length;
+            while (i--) {
+                if (this._callbacks[i].type === type && this._callbacks[i].callback === callback) {
+                    this._callbacks.splice(i, 1);
+                }
+            }
+        }
+    }
+
     _messageReceived(message) {
         // Processes messages received from the worker
+        let callbackData = {type: message.data.type};
         switch (message.data.type) {
             case "begin":
                 console.info(`Event ${message.data.id} started`);
+                callbackData = {
+                    id: message.data.id
+                };
                 break;
             case "end":
                 console.info(`Event ${message.data.id} ended`);
+                callbackData.id = message.data.id;
                 break;
+            case "play":
+                break;
+            case "pause":
+                break;
+            case "seek":
+                break;
+            case "time":
+                callbackData.time = message.data.time;
+                break;
+        }
+
+        if (callbackData) {
+            // Execute any matching callbacks
+            for (let i=0; i<this._callbacks.length; i++) {
+                if (this._callbacks[i].type === callbackData.type && typeof this._callbacks[i].callback === "function") {
+                    this._callbacks[i].callback(callbackData);
+                }
+            }
         }
     }
 }

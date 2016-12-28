@@ -42,7 +42,9 @@ function processTime () {
     }
     else {
         timer = null;
-        console.log("Timer stopped.");
+        postMessage({
+            type: "pause"
+        });
     }
 }
 
@@ -52,6 +54,9 @@ addEventListener("message", (message) => {
             playing = true;
             lastTime = performance.now();
             timer = setTimeout(processTime, precision);
+            postMessage({
+                type: "play"
+            });
             break;
         case "pause":
             playing = false;
@@ -59,7 +64,10 @@ addEventListener("message", (message) => {
         case "seek":
             break;
         case "time":
-            console.log(lastTime - startTime);
+            postMessage({
+                type: "time",
+                time: lastTime - startTime
+            });
             break;
         case "add":
             let newEvent = message.data;
