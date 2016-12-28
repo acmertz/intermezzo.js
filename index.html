@@ -51,13 +51,43 @@
         <script>
             var bullet = new BulletTime(),
                 output = document.getElementsByClassName("output")[0];
+            
+            function scrollToBottom () {
+                output.scrollTop = output.scrollHeight - output.clientHeight;
+            }
 
-            bullet.registerCallback("begin", (obj) => {output.innerHTML += "Begin event: " + obj.id + "<br>"});
-            bullet.registerCallback("end", (obj) => {output.innerHTML += "End event: " + obj.id + "<br>"});
-            bullet.registerCallback("play", (obj) => {output.innerHTML += "Started playback." + "<br>"});
-            bullet.registerCallback("pause", (obj) => {output.innerHTML += "Paused playback." + "<br>"});
-            bullet.registerCallback("seek", (obj) => {output.innerHTML += "Seeked to " + obj.time + "<br>"});
-            bullet.registerCallback("time", (obj) => {output.innerHTML += "Time: " + obj.time + "<br>"});
+            function processOutput (obj) {
+                let outputStr = "";
+                switch (obj.type) {
+                    case "begin":
+                        outputStr = "Begin event: " + obj.id 
+                        break;
+                    case "end":
+                        outputStr = "End event: " + obj.id
+                        break;
+                    case "play":
+                        outputStr = "Started playback."
+                        break;
+                    case "pause":
+                        outputStr = "Paused playback."
+                        break;
+                    case "seek":
+                        outputStr = "Seeked to " + obj.time
+                        break;
+                    case "time":
+                        outputStr = "Time: " + obj.time
+                        break;
+                }
+                output.innerHTML += outputStr + "<br>";
+                scrollToBottom();
+            }
+
+            bullet.registerCallback("begin", (obj) => processOutput(obj));
+            bullet.registerCallback("end", (obj) => processOutput(obj));
+            bullet.registerCallback("play", (obj) => processOutput(obj));
+            bullet.registerCallback("pause", (obj) => processOutput(obj));
+            bullet.registerCallback("seek", (obj) => processOutput(obj));
+            bullet.registerCallback("time", (obj) => processOutput(obj));
         </script>
     </body>
 </html>
