@@ -110,6 +110,7 @@ class BulletTime {
             case "pause":
                 break;
             case "seek":
+                callbackData.time = message.data.time;
                 break;
             case "time":
                 callbackData.time = message.data.time;

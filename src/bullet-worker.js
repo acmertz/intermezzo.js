@@ -4,19 +4,17 @@ let timer = null,
     precision = 10,
     lastTime = 0,
     startTime = 0,
+    offsetTime = 0,
     playing = false;
 
 function processTime () {
-    const currentTime = performance.now(),
-        elapsed = currentTime - lastTime,
-        diff = elapsed - precision;
-    lastTime = currentTime;
+    lastTime = (performance.now() - startTime) + offsetTime;
 
     for (let i=0; i<index.length; i++) {
         const currentItem = index[i];
         if (currentItem.playing) {
             // Check if the event should end
-            if (currentTime > currentItem.time + currentItem.duration) {
+            if (lastTime > currentItem.time + currentItem.duration) {
                 currentItem.playing = false;
                 postMessage({
                     id: currentItem.id,
@@ -26,7 +24,7 @@ function processTime () {
         }
         else {
             // Check if the event should begin
-            if (currentTime > currentItem.time && currentItem.time + currentItem.duration > currentTime) {
+            if (lastTime > currentItem.time && currentItem.time + currentItem.duration > lastTime) {
                 currentItem.playing = true;
                 postMessage({
                     id: currentItem.id,
@@ -37,11 +35,11 @@ function processTime () {
     }
 
     if (playing) {
-        const nextTimeout = precision - diff;
-        timer = setTimeout(processTime, nextTimeout);
+        timer = setTimeout(processTime, precision);
     }
     else {
         timer = null;
+        offsetTime = lastTime;
         postMessage({
             type: "pause"
         });
@@ -52,7 +50,7 @@ addEventListener("message", (message) => {
     switch (message.data.type) {
         case "play":
             playing = true;
-            lastTime = performance.now();
+            startTime = performance.now();
             timer = setTimeout(processTime, precision);
             postMessage({
                 type: "play"
@@ -62,11 +60,16 @@ addEventListener("message", (message) => {
             playing = false;
             break;
         case "seek":
+            offsetTime = lastTime = message.data.time;
+            postMessage({
+                type: "seek",
+                time: offsetTime
+            });
             break;
         case "time":
             postMessage({
                 type: "time",
-                time: lastTime - startTime
+                time: lastTime
             });
             break;
         case "add":
