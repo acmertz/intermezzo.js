@@ -60,7 +60,7 @@ addEventListener("message", (message) => {
             playing = false;
             break;
         case "seek":
-            offsetTime = lastTime = message.data.time;
+            offsetTime = lastTime = parseFloat(message.data.time);
             postMessage({
                 type: "seek",
                 time: offsetTime
