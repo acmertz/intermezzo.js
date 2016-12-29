@@ -42,6 +42,9 @@ function processTime () {
     else {
         timer = null;
         offsetTime = lastTime;
+        for (let i=0; i<index.length; i++) {
+            index[i].playing = false;
+        }
         postMessage({
             type: "pause"
         });
