@@ -40,30 +40,52 @@ class BulletTime {
 
     play() {
         // Begins playback from the current position.
-        this._playing = true;
-        this._timer.postMessage({
-            type: "play"
-        });
+        if (this._index.length > 0) {
+            this._playing = true;
+            this._timer.postMessage({
+                type: "play"
+            });
+        }
+        else throw "Unable to play: no events in timeline.";
     }
 
     pause() {
         // Pauses playback at the current position.
-        this._playing = false;
-        this._timer.postMessage({
-            type: "pause"
-        });
+        if (this._index.length > 0) {
+            this._playing = false;
+            this._timer.postMessage({
+                type: "pause"
+            });
+        }
+        else throw "Unable to pause: no events in timeline.";
     }
 
     seek(time) {
         // Seeks the timeline to the specified position.
+        const duration = this.getDuration();
+
+        let seekTime = time;
+        if (0 > time) seekTime = 0;
+        else if (time > duration) time = duration;
+
         this._timer.postMessage({
             type: "seek",
-            time
+            time: seekTime
         });
     }
 
+    getDuration() {
+        let duration = 0;
+        for (let i=0; i<this._index.length; i++) {
+            const currentCheck = this._index[i],
+                currentEndTime = currentCheck.time + currentCheck.duration;
+            if (currentEndTime > duration) duration = currentEndTime;
+        }
+        return duration;
+    }
+
     time() {
-        // Logs the current playback time
+        // Requests the current playback time from the worker thread
         this._timer.postMessage({
             type: "time"
         })
