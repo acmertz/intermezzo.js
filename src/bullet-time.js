@@ -62,16 +62,19 @@ class BulletTime {
 
     seek(time) {
         // Seeks the timeline to the specified position.
-        const duration = this.getDuration();
+        if (!this._playing) {
+            const duration = this.getDuration();
 
-        let seekTime = time;
-        if (0 > time) seekTime = 0;
-        else if (time > duration) time = duration;
+            let seekTime = time;
+            if (0 > time) seekTime = 0;
+            else if (time > duration) time = duration;
 
-        this._timer.postMessage({
-            type: "seek",
-            time: seekTime
-        });
+            this._timer.postMessage({
+                type: "seek",
+                time: seekTime
+            });
+        }
+        else throw "Unable to seek: playback is currently in progress.";
     }
 
     getDuration() {
