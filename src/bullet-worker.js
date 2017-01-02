@@ -41,6 +41,7 @@ function processTime () {
     if (lastTime > duration) {
         endOfPlayback = true;
         playing = false;
+        lastTime = duration;
     }
 
     if (playing) {
