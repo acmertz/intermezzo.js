@@ -5,6 +5,7 @@ let timer = null,
     lastTime = 0,
     startTime = 0,
     offsetTime = 0,
+    duration = 0,
     playing = false;
 
 function processTime () {
@@ -36,6 +37,12 @@ function processTime () {
         }
     }
 
+    let endOfPlayback = false;
+    if (lastTime > duration) {
+        endOfPlayback = true;
+        playing = false;
+    }
+
     if (playing) {
         timer = setTimeout(processTime, precision);
     }
@@ -46,9 +53,13 @@ function processTime () {
             index[i].playing = false;
         }
         postMessage({
-            type: "pause"
+            type: endOfPlayback ? "stop" : "pause"
         });
     }
+}
+
+function getDuration () {
+    return Math.max.apply(Math, index.map((val) => {return val.time + val.duration}));
 }
 
 addEventListener("message", (message) => {
@@ -81,10 +92,14 @@ addEventListener("message", (message) => {
             let newEvent = message.data;
             newEvent.playing = false;
             index.push(newEvent);
+            duration = getDuration();
             break;
         case "remove":
             let result = index.filter((obj) => obj.id === message.data.id);
-            if (result) this.index.splice(this.index.indexOf(result), 1);
+            if (result) {
+                this.index.splice(this.index.indexOf(result), 1);
+                duration = getDuration();
+            }
             break;
     }
 });

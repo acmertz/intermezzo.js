@@ -23,6 +23,7 @@
             <button type="button" onclick="bullet.play()">Play</button>
             <button type="button" onclick="bullet.pause()">Pause</button>
             <button type="button" onclick="bullet.time()">Log time</button>
+            <button type="button" onclick="output.innerHTML += 'Duration: ' + bullet.getDuration() + '<br>';scrollToBottom();">Log duration</button>
         </p>
         <hr>
         <p>
@@ -76,22 +77,25 @@
                 let outputStr = "";
                 switch (obj.type) {
                     case "begin":
-                        outputStr = "Begin event: " + obj.id 
+                        outputStr = "Begin event: " + obj.id;
                         break;
                     case "end":
-                        outputStr = "End event: " + obj.id
+                        outputStr = "End event: " + obj.id;
                         break;
                     case "play":
-                        outputStr = "Started playback."
+                        outputStr = "Started playback.";
                         break;
                     case "pause":
-                        outputStr = "Paused playback."
+                        outputStr = "Paused playback.";
+                        break;
+                    case "stop":
+                        outputStr = "Reached the end of playback.";
                         break;
                     case "seek":
-                        outputStr = "Seeked to " + obj.time
+                        outputStr = "Seeked to " + obj.time;
                         break;
                     case "time":
-                        outputStr = "Time: " + obj.time
+                        outputStr = "Time: " + obj.time;
                         break;
                 }
                 output.innerHTML += outputStr + "<br>";
@@ -102,6 +106,7 @@
             bullet.registerCallback("end", (obj) => processOutput(obj));
             bullet.registerCallback("play", (obj) => processOutput(obj));
             bullet.registerCallback("pause", (obj) => processOutput(obj));
+            bullet.registerCallback("stop", (obj) => processOutput(obj));
             bullet.registerCallback("seek", (obj) => processOutput(obj));
             bullet.registerCallback("time", (obj) => processOutput(obj));
         </script>

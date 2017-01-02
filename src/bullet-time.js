@@ -40,24 +40,22 @@ class BulletTime {
 
     play() {
         // Begins playback from the current position.
-        if (this._index.length > 0) {
+        if (this.getDuration() > 0 && !this._playing) {
             this._playing = true;
             this._timer.postMessage({
                 type: "play"
             });
         }
-        else throw "Unable to play: no events in timeline.";
     }
 
     pause() {
         // Pauses playback at the current position.
-        if (this._index.length > 0) {
+        if (this._playing) {
             this._playing = false;
             this._timer.postMessage({
                 type: "pause"
             });
         }
-        else throw "Unable to pause: no events in timeline.";
     }
 
     seek(time) {
@@ -78,13 +76,7 @@ class BulletTime {
     }
 
     getDuration() {
-        let duration = 0;
-        for (let i=0; i<this._index.length; i++) {
-            const currentCheck = this._index[i],
-                currentEndTime = currentCheck.time + currentCheck.duration;
-            if (currentEndTime > duration) duration = currentEndTime;
-        }
-        return duration;
+        return Math.max(this._index.map((val) => {console.log(val); return val.time + val.duration}));
     }
 
     time() {
@@ -129,6 +121,9 @@ class BulletTime {
             case "play":
                 break;
             case "pause":
+                break;
+            case "stop":
+                this._playing = false;
                 break;
             case "seek":
                 callbackData.time = message.data.time;
