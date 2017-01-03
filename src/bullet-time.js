@@ -81,7 +81,7 @@ class BulletTime {
     }
 
     registerCallback(type, callback) {
-        // Registers a callback function for one of the following values for type: begin, end, play, pause, seek, time
+        // Registers a callback function for one of the following values for type: begin, end, play, pause, seek
         if (typeof type === "string" && typeof callback === "function") {
             this._callbacks.push({
                 type,
@@ -91,7 +91,7 @@ class BulletTime {
     }
 
     unregisterCallback(type, callback) {
-        // Unregisters a callback function for one of the following values for type: begin, end, play, pause, seek, time
+        // Unregisters a callback function for one of the following values for type: begin, end, play, pause, seek
         if (typeof type === "string" && typeof callback === "function") {
             let i = this._callbacks.length;
             while (i--) {
