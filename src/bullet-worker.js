@@ -52,6 +52,10 @@ function processTime () {
     }
 
     if (playing) {
+        postMessage({
+            type: "time",
+            time: lastTime
+        });
         timer = setTimeout(processTime, precision - newDrift);
         drift = newDrift;
     }
@@ -90,12 +94,6 @@ addEventListener("message", (message) => {
             postMessage({
                 type: "seek",
                 time: offsetTime
-            });
-            break;
-        case "time":
-            postMessage({
-                type: "time",
-                time: lastTime
             });
             break;
         case "add":

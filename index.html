@@ -22,7 +22,7 @@
         <p>
             <button type="button" onclick="bullet.play()">Play</button>
             <button type="button" onclick="bullet.pause()">Pause</button>
-            <button type="button" onclick="bullet.time()">Log time</button>
+            <button type="button" onclick="output.innerHTML += 'Time: ' + bullet.currentTime + '<br>';scrollToBottom();">Log time</button>
             <button type="button" onclick="output.innerHTML += 'Duration: ' + bullet.getDuration() + '<br>';scrollToBottom();">Log duration</button>
         </p>
         <hr>

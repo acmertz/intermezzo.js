@@ -6,6 +6,7 @@ class BulletTime {
         this._playing = false;
         this._timer = new Worker("bullet-worker.js");
         this._timer.addEventListener("message", (message) => this._messageReceived(message));
+        this.currentTime = 0;
     }
 
     addEvent(time, duration, callback) {
@@ -79,13 +80,6 @@ class BulletTime {
         return Math.max(this._index.map((val) => {console.log(val); return val.time + val.duration}));
     }
 
-    time() {
-        // Requests the current playback time from the worker thread
-        this._timer.postMessage({
-            type: "time"
-        })
-    }
-
     registerCallback(type, callback) {
         // Registers a callback function for one of the following values for type: begin, end, play, pause, seek, time
         if (typeof type === "string" && typeof callback === "function") {
@@ -129,7 +123,8 @@ class BulletTime {
                 callbackData.time = message.data.time;
                 break;
             case "time":
-                callbackData.time = message.data.time;
+                currentTime = parseFloat(message.data.time);
+                callbackData = null;
                 break;
         }
 
