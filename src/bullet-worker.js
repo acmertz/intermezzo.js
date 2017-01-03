@@ -6,10 +6,17 @@ let timer = null,
     startTime = 0,
     offsetTime = 0,
     duration = 0,
+    drift = 0,
     playing = false;
 
 function processTime () {
-    lastTime = (performance.now() - startTime) + offsetTime;
+    const newTime = (performance.now() - startTime) + offsetTime;
+
+    let newDrift = 0,
+        elapsed = newTime - lastTime;
+
+    newDrift = (elapsed - precision) + drift;
+    lastTime = newTime;
 
     for (let i=0; i<index.length; i++) {
         const currentItem = index[i];
@@ -45,11 +52,13 @@ function processTime () {
     }
 
     if (playing) {
-        timer = setTimeout(processTime, precision);
+        timer = setTimeout(processTime, precision - newDrift);
+        drift = newDrift;
     }
     else {
         timer = null;
         offsetTime = lastTime;
+        drift = 0;
         for (let i=0; i<index.length; i++) {
             index[i].playing = false;
         }
