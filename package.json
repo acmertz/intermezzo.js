@@ -2,7 +2,7 @@
   "name": "intermezzo",
   "version": "0.1.0",
   "description": "Virtual timeline for triggering scheduled events",
-  "main": "build/bullet-time.js",
+  "main": "build/intermezzo.js",
   "scripts": {
     "build": "babel src -d build && ncp index.html build/index.html",
     "serve": "http-server build",
