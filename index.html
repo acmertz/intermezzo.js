@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>BulletTime</title>
+        <title>intermezzo.js</title>
         <style>
             body{font-family:sans-serif}
             .output {
@@ -18,17 +18,17 @@
         </style>
     </head>
     <body>
-        <h1>BulletTime</h1>
+        <h1>intermezzo.js</h1>
         <p>
-            <button type="button" onclick="bullet.play()">Play</button>
-            <button type="button" onclick="bullet.pause()">Pause</button>
-            <button type="button" onclick="output.innerHTML += 'Time: ' + bullet.currentTime + '<br>';scrollToBottom();">Log time</button>
-            <button type="button" onclick="output.innerHTML += 'Duration: ' + bullet.getDuration() + '<br>';scrollToBottom();">Log duration</button>
+            <button type="button" onclick="intermezzo.play()">Play</button>
+            <button type="button" onclick="intermezzo.pause()">Pause</button>
+            <button type="button" onclick="output.innerHTML += 'Time: ' + intermezzo.currentTime + '<br>';scrollToBottom();">Log time</button>
+            <button type="button" onclick="output.innerHTML += 'Duration: ' + intermezzo.getDuration() + '<br>';scrollToBottom();">Log duration</button>
         </p>
         <hr>
         <p>
             <input type="number" value="0" class="seek-time">
-            <button type="button" onclick="bullet.seek(parseFloat(seekTime.value))">Seek</button>
+            <button type="button" onclick="intermezzo.seek(parseFloat(seekTime.value))">Seek</button>
         </p>
         <hr>
         <p>
@@ -38,7 +38,7 @@
             <label><span>Duration:</span><br><input type="number" value="2000" class="duration-time"></label>
         </p>
         <p>
-            <button type="button" onclick="bullet.addEvent(parseFloat(startTime.value), parseFloat(durationTime.value), null)">Add event</button>
+            <button type="button" onclick="intermezzo.addEvent(parseFloat(startTime.value), parseFloat(durationTime.value), null)">Add event</button>
         </p>
 
         <h2>Output</h2>
@@ -46,24 +46,24 @@
         <p><button type="button" onclick="output.innerHTML = ''">Clear</button></p>
 
         <h2>Examples</h2>
-        <h3>Create a new instance of BulletTime:</h3>
-        <code>var bullet = new BulletTime()</code>
+        <h3>Create a new instance of intermezzo.js:</h3>
+        <code>var intermezzo = new Intermezzo()</code>
 
         <h3>Add an event to the timeline:</h3>
-        <code>var eventId = bullet.addEvent(time, duration, callback)</code>
+        <code>var eventId = intermezzo.addEvent(time, duration, callback)</code>
 
         <h3>Begin playback:</h3>
-        <code>bullet.play()</code>
+        <code>intermezzo.play()</code>
 
         <h3>Pause playback:</h3>
-        <code>bullet.pause()</code>
+        <code>intermezzo.pause()</code>
         
         <h3>Seek to a time in milliseconds:</h3>
-        <code>bullet.seek(time)</code>
+        <code>intermezzo.seek(time)</code>
 
-        <script src="bullet-time.js"></script>
+        <script src="intermezzo.js"></script>
         <script>
-            var bullet = new BulletTime(),
+            var intermezzo = new Intermezzo(),
                 output = document.getElementsByClassName("output")[0],
                 seekTime = document.getElementsByClassName("seek-time")[0],
                 startTime = document.getElementsByClassName("start-time")[0],
@@ -102,13 +102,13 @@
                 scrollToBottom();
             }
 
-            bullet.registerCallback("begin", (obj) => processOutput(obj));
-            bullet.registerCallback("end", (obj) => processOutput(obj));
-            bullet.registerCallback("play", (obj) => processOutput(obj));
-            bullet.registerCallback("pause", (obj) => processOutput(obj));
-            bullet.registerCallback("stop", (obj) => processOutput(obj));
-            bullet.registerCallback("seek", (obj) => processOutput(obj));
-            bullet.registerCallback("time", (obj) => processOutput(obj));
+            intermezzo.registerCallback("begin", (obj) => processOutput(obj));
+            intermezzo.registerCallback("end", (obj) => processOutput(obj));
+            intermezzo.registerCallback("play", (obj) => processOutput(obj));
+            intermezzo.registerCallback("pause", (obj) => processOutput(obj));
+            intermezzo.registerCallback("stop", (obj) => processOutput(obj));
+            intermezzo.registerCallback("seek", (obj) => processOutput(obj));
+            intermezzo.registerCallback("time", (obj) => processOutput(obj));
         </script>
     </body>
 </html>
