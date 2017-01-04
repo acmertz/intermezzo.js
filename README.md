@@ -20,4 +20,49 @@
 BulletTime.js provides a simple way for you to create a timeline of arbitrary "events" and perform actions when those events begin or end. It makes no assumptions about the purpose of those events (you have to specify your own callbacks).
 
 ## Usage and examples
-Todo: add usage and examples
+### Create a new instance of BulletTime:
+You may create multiple instances of BulletTime within the same page. Instances operate independently of each other, and each instance creates its own Worker thread.
+
+    var bullet = new BulletTime()
+
+### Add an event to the timeline:
+Add an event to the timeline with the specified `time` and `duration`. If included, function `callback` is called when the event begins or ends during timeline playback. The event's unique ID (within this particular instance of BulletTime) is returned.
+
+    var eventId = bullet.addEvent(time, duration, callback)
+
+### Remove an event from the timeline:
+Remove an existing event from the timeline by passing the ID returned from `addEvent`.
+
+    bullet.removeEvent(eventId)
+
+### Begin playback:
+Start playing back the timeline. Playback can only begin if the duration is greater than 0ms (calling `play` on an instance of BulletTime with no events will have no effect).
+
+    bullet.play()
+
+### Pause playback:
+Pause the playback. Has no effect if playback is already paused.
+
+    bullet.pause()
+
+### Seek to a time in milliseconds:
+Seek the timeline to a specific time in milliseconds. Has no effect if playback is in progress (you must pause playback before seeking).
+
+    bullet.seek(time)
+
+### Register a callback:
+Fire a callback when one of the following things occurs (use one of these for the value of `type`):
+
+- `begin`: a timeline event has begun
+- `end`: a timeline event has ended
+- `play`: playback began
+- `pause`: playback paused
+- `stop`: playback stopped at the end of the timeline
+- `seek`: finished seeking to a new time
+
+The registered callback will fire whenever an event of that type occurs.
+
+    bullet.registerCallback(type, callback)
+
+### Unregister a previously-added callback:
+    bullet.unregisterCallback(type, callback)
