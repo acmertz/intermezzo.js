@@ -1,10 +1,10 @@
-class BulletTime {
+class Intermezzo {
     constructor() {
         this._index = [];
         this._callbacks = [];
         this._freeId = 0;
         this._playing = false;
-        this._timer = new Worker("bullet-worker.js");
+        this._timer = new Worker("intermezzo-worker.js");
         this._timer.addEventListener("message", (message) => this._messageReceived(message));
         this.currentTime = 0;
     }
