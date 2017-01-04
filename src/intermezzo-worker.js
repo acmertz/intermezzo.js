@@ -51,11 +51,12 @@ function processTime () {
         lastTime = duration;
     }
 
+    postMessage({
+        type: "time",
+        time: lastTime
+    });
+
     if (playing) {
-        postMessage({
-            type: "time",
-            time: lastTime
-        });
         timer = setTimeout(processTime, precision - newDrift);
         drift = newDrift;
     }
