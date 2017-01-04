@@ -123,7 +123,7 @@ class Intermezzo {
                 callbackData.time = message.data.time;
                 break;
             case "time":
-                currentTime = parseFloat(message.data.time);
+                this.currentTime = parseFloat(message.data.time);
                 callbackData = null;
                 break;
         }
