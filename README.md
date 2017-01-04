@@ -1,4 +1,4 @@
-# BulletTime.js
+# intermezzo.js
 
 ## Goals
 - Schedule events on a virtual timeline
@@ -16,39 +16,39 @@
 - Update the UI (you should use [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) to repeatedly check the playback state if you want to perform your own actions during playback)
 - Render to a Canvas
 
-## Why BulletTime.js?
-BulletTime.js provides a simple way for you to create a timeline of arbitrary "events" and perform actions when those events begin or end. It makes no assumptions about the purpose of those events (you have to specify your own callbacks).
+## Why intermezzo.js?
+intermezzo.js provides a simple way for you to create a timeline of arbitrary "events" and perform actions when those events begin or end. It makes no assumptions about the purpose of those events (you have to specify your own callbacks).
 
 ## Usage and examples
-### Create a new instance of BulletTime:
-You may create multiple instances of BulletTime within the same page. Instances operate independently of each other, and each instance creates its own Worker thread.
+### Create a new instance of Intermezzo:
+You may create multiple instances of Intermezzo within the same page. Instances operate independently of each other, and each instance creates its own Worker thread.
 
-    var bullet = new BulletTime()
+    var intermezzo = new Intermezzo()
 
 ### Add an event to the timeline:
-Add an event to the timeline with the specified `time` and `duration`. If included, function `callback` is called when the event begins or ends during timeline playback. The event's unique ID (within this particular instance of BulletTime) is returned.
+Add an event to the timeline with the specified `time` and `duration`. If included, function `callback` is called when the event begins or ends during timeline playback. The event's unique ID (within this particular instance of Intermezzo) is returned.
 
-    var eventId = bullet.addEvent(time, duration, callback)
+    var eventId = intermezzo.addEvent(time, duration, callback)
 
 ### Remove an event from the timeline:
 Remove an existing event from the timeline by passing the ID returned from `addEvent`.
 
-    bullet.removeEvent(eventId)
+    intermezzo.removeEvent(eventId)
 
 ### Begin playback:
-Start playing back the timeline. Playback can only begin if the duration is greater than 0ms (calling `play` on an instance of BulletTime with no events will have no effect).
+Start playing back the timeline. Playback can only begin if the duration is greater than 0ms (calling `play` on an instance of Intermezzo with no events will have no effect).
 
-    bullet.play()
+    intermezzo.play()
 
 ### Pause playback:
 Pause the playback. Has no effect if playback is already paused.
 
-    bullet.pause()
+    intermezzo.pause()
 
 ### Seek to a time in milliseconds:
 Seek the timeline to a specific time in milliseconds. Has no effect if playback is in progress (you must pause playback before seeking).
 
-    bullet.seek(time)
+    intermezzo.seek(time)
 
 ### Register a callback:
 Fire a callback when one of the following things occurs (use one of these for the value of `type`):
@@ -62,7 +62,7 @@ Fire a callback when one of the following things occurs (use one of these for th
 
 The registered callback will fire whenever an event of that type occurs.
 
-    bullet.registerCallback(type, callback)
+    intermezzo.registerCallback(type, callback)
 
 ### Unregister a previously-added callback:
-    bullet.unregisterCallback(type, callback)
+    intermezzo.unregisterCallback(type, callback)
