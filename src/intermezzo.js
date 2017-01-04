@@ -77,7 +77,7 @@ class Intermezzo {
     }
 
     getDuration() {
-        return Math.max(this._index.map((val) => {console.log(val); return val.time + val.duration}));
+        return Math.max(this._index.map((val) => {return val.time + val.duration}));
     }
 
     registerCallback(type, callback) {
