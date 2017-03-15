@@ -1,8 +1,10 @@
-class Intermezzo {
+export default class Intermezzo {
     constructor() {
         this._index = [];
         this._callbacks = [];
+        this._events = [];
         this._freeId = 0;
+        this._eventId = 0;
         this._playing = false;
         this._timer = new Worker("intermezzo-worker.js");
         this._timer.addEventListener("message", (message) => this._messageReceived(message));
@@ -42,27 +44,34 @@ class Intermezzo {
     play() {
         // Begins playback from the current position.
         if (this.getDuration() > 0 && !this._playing) {
+            const eventId = this._eventId++;
             this._playing = true;
             this._timer.postMessage({
-                type: "play"
+                type: "play",
+                eventId: eventId
             });
+            return this._generatePromise(eventId);
         }
     }
 
     pause() {
         // Pauses playback at the current position.
         if (this._playing) {
+            const eventId = this._eventId++;
             this._playing = false;
             this._timer.postMessage({
-                type: "pause"
+                type: "pause",
+                eventId: eventId
             });
+            return this._generatePromise(eventId);
         }
     }
 
     seek(time) {
         // Seeks the timeline to the specified position.
         if (!this._playing) {
-            const duration = this.getDuration();
+            const duration = this.getDuration(),
+                eventId = this._eventId++;
 
             let seekTime = time;
             if (0 > time) seekTime = 0;
@@ -70,8 +79,11 @@ class Intermezzo {
 
             this._timer.postMessage({
                 type: "seek",
-                time: seekTime
+                time: seekTime,
+                eventId: eventId
             });
+
+            return this._generatePromise(eventId);
         }
         else throw "Unable to seek: playback is currently in progress.";
     }
@@ -102,9 +114,27 @@ class Intermezzo {
         }
     }
 
+    _generatePromise(eventId) {
+        const promise = new Promise();
+        this._events.push({
+            eventId: eventId,
+            promise: promise
+        });
+        return promise;
+    }
+
+    _retrievePromise(eventId) {
+        const eventObj = this._events.find(item => eventId === item);
+        if (eventObj) {
+            this._events.splice(this._events.indexOf(eventObj), 1);
+            return eventObj;
+        }
+    }
+
     _messageReceived(message) {
         // Processes messages received from the worker
-        let callbackData = {type: message.data.type};
+        let callbackData = {type: message.data.type},
+            promise = null;
         switch (message.data.type) {
             case "begin":
                 callbackData.id = message.data.id;
@@ -113,6 +143,7 @@ class Intermezzo {
                 callbackData.id = message.data.id;
                 break;
             case "play":
+                promise = this._retrievePromise
                 break;
             case "pause":
                 break;
@@ -128,6 +159,8 @@ class Intermezzo {
                 break;
         }
 
+        if (promise) Promise.resolve(promise);
+
         if (callbackData) {
             // Execute any matching callbacks
             for (let i=0; i<this._callbacks.length; i++) {
@@ -137,4 +170,8 @@ class Intermezzo {
             }
         }
     }
+}
+
+if (module) {
+    module.exports = Intermezzo;
 }

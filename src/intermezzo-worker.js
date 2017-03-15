@@ -7,7 +7,8 @@ let timer = null,
     offsetTime = 0,
     duration = 0,
     drift = 0,
-    playing = false;
+    playing = false,
+    pauseEventId = null;
 
 function processTime () {
     const newTime = (performance.now() - startTime) + offsetTime;
@@ -67,8 +68,12 @@ function processTime () {
         for (let i=0; i<index.length; i++) {
             index[i].playing = false;
         }
+
+        const eventId = pauseEventId;
+        pauseEventId = null;
         postMessage({
-            type: endOfPlayback ? "stop" : "pause"
+            type: endOfPlayback ? "stop" : "pause",
+            eventId: eventId
         });
     }
 }
@@ -84,17 +89,20 @@ addEventListener("message", (message) => {
             startTime = performance.now();
             timer = setTimeout(processTime, precision);
             postMessage({
-                type: "play"
+                type: "play",
+                eventId: message.data.eventId
             });
             break;
         case "pause":
             playing = false;
+            pauseEventId = message.data.eventId;
             break;
         case "seek":
             offsetTime = lastTime = parseFloat(message.data.time);
             postMessage({
                 type: "seek",
-                time: offsetTime
+                time: offsetTime,
+                eventId: message.data.eventId
             });
             break;
         case "add":
