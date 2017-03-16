@@ -115,10 +115,16 @@ export default class Intermezzo {
     }
 
     _generatePromise(eventId) {
-        const promise = new Promise();
+        let resolveCallback = null,
+            rejectCallback = null;
+        const promise = new Promise((resolve, reject) => {
+            resolveCallback = resolve;
+            rejectCallback = reject;
+        });
         this._events.push({
             eventId: eventId,
-            promise: promise
+            resolve: resolveCallback,
+            reject: rejectCallback
         });
         return promise;
     }
@@ -134,7 +140,7 @@ export default class Intermezzo {
     _messageReceived(message) {
         // Processes messages received from the worker
         let callbackData = {type: message.data.type},
-            promise = null;
+            promiseDetails = null;
         switch (message.data.type) {
             case "begin":
                 callbackData.id = message.data.id;
@@ -143,15 +149,17 @@ export default class Intermezzo {
                 callbackData.id = message.data.id;
                 break;
             case "play":
-                promise = this._retrievePromise
+                promiseDetails = this._retrievePromise(message.data.eventId);
                 break;
             case "pause":
+                promiseDetails = this._retrievePromise(message.data.eventId);
                 break;
             case "stop":
                 this._playing = false;
                 break;
             case "seek":
                 callbackData.time = message.data.time;
+                promiseDetails = this._retrievePromise(message.data.eventId);
                 break;
             case "time":
                 this.currentTime = parseFloat(message.data.time);
@@ -159,7 +167,7 @@ export default class Intermezzo {
                 break;
         }
 
-        if (promise) Promise.resolve(promise);
+        if (promiseDetails && typeof promiseDetails.resolve === "function") promiseDetails.resolve();
 
         if (callbackData) {
             // Execute any matching callbacks
