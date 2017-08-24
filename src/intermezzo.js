@@ -1,4 +1,6 @@
-export default class Intermezzo {
+const IntermezzoWorker = require('worker-loader?inline&fallback=false!./intermezzo-worker.js');
+
+export class Intermezzo {
     constructor() {
         this._index = [];
         this._callbacks = [];
@@ -6,7 +8,7 @@ export default class Intermezzo {
         this._freeId = 0;
         this._eventId = 0;
         this._playing = false;
-        this._timer = new Worker("intermezzo-worker.js");
+        this._timer = new IntermezzoWorker();
         this._timer.addEventListener("message", (message) => this._messageReceived(message));
         this.currentTime = 0;
     }
@@ -178,8 +180,4 @@ export default class Intermezzo {
             }
         }
     }
-}
-
-if (module) {
-    module.exports = Intermezzo;
 }
