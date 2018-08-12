@@ -4,9 +4,9 @@
   "description": "Virtual timeline for triggering scheduled events",
   "main": "dist/intermezzo.js",
   "scripts": {
-    "build": "webpack",
-    "prepublish": "webpack -p",
-    "start": "webpack-dev-server --open"
+    "build": "webpack --config webpack.config.dev.js",
+    "prepublish": "webpack --config webpack.config.prod.js",
+    "start": "webpack-dev-server --config webpack.config.dev.js --open"
   },
   "repository": {
     "type": "git",
@@ -25,12 +25,13 @@
   },
   "homepage": "https://github.com/acmertz/intermezzo.js#readme",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
-    "clean-webpack-plugin": "^0.1.16",
-    "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1",
-    "worker-loader": "^0.8.1"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5",
+    "worker-loader": "^2.0.0"
   }
 }

@@ -2,6 +2,7 @@ const path = require('path'),
       CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
+    mode: 'development',
     entry: './src/index.js',
     devServer: {
         contentBase: './'
@@ -9,6 +10,7 @@ module.exports = {
     plugins: [
         new CleanWebpackPlugin(['dist'])
     ],
+    devtool: 'eval-source-map',
     output: {
         filename: 'intermezzo.js',
         path: path.resolve(__dirname, 'dist'),

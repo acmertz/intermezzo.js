@@ -13,8 +13,14 @@ export class Intermezzo {
         this.currentTime = 0;
     }
 
+    /**
+     * Adds an event to the timeline and returns its ID.
+     * @param {number} time 
+     * @param {number} duration
+     * @param {function} [callback] An optional function for the event.
+     * @returns {number} The ID of the event.
+     */
     addEvent(time, duration, callback) {
-        // Adds an event to the timeline and returns its ID. Accepts an optional callback function as a parameter.
         this._index.push({
             id: this._freeId,
             time,
@@ -32,8 +38,11 @@ export class Intermezzo {
         return this._freeId++;
     }
 
+    /**
+     * Removes the event with the given ID from the timeline.
+     * @param {number} id 
+     */
     removeEvent(id) {
-        // Removes the event with the given ID from the timeline.
         let result = this._index.filter((obj) => obj.id === id);
         if (result) this._index.splice(this._index.indexOf(result), 1);
 
@@ -43,8 +52,11 @@ export class Intermezzo {
         });
     }
 
+    /**
+     * Begins playback from the current position.
+     * @returns {Promise} A promise that is resolved once playback has begun.
+     */
     play() {
-        // Begins playback from the current position.
         if (this.getDuration() > 0 && !this._playing) {
             const eventId = this._eventId++;
             this._playing = true;
@@ -56,8 +68,11 @@ export class Intermezzo {
         }
     }
 
+    /**
+     * Pauses playback at the current position.
+     * @returns {Promise} A promise that is resolved once playback has been paused.
+     */
     pause() {
-        // Pauses playback at the current position.
         if (this._playing) {
             const eventId = this._eventId++;
             this._playing = false;
@@ -69,8 +84,12 @@ export class Intermezzo {
         }
     }
 
+    /**
+     * Seeks the timeline to the specified position.
+     * @param {number} time The time in milliseconds.
+     * @returns {Promise} A promise that is resolved once seeking has finished.
+     */
     seek(time) {
-        // Seeks the timeline to the specified position.
         if (!this._playing) {
             const duration = this.getDuration(),
                 eventId = this._eventId++;
@@ -90,12 +109,20 @@ export class Intermezzo {
         else throw "Unable to seek: playback is currently in progress.";
     }
 
+    /**
+     * Returns the duration of the timeline.
+     * @returns {number} The duration of the timeline in milliseconds.
+     */
     getDuration() {
         return Math.max(this._index.map((val) => {return val.time + val.duration}));
     }
 
+    /**
+     * Registers a callback function to fire with details about timeline events.
+     * @param {string} type One of the following values: begin, end, play, pause, seek, stop
+     * @param {function} callback A function that is called when the event occurs.
+     */
     registerCallback(type, callback) {
-        // Registers a callback function for one of the following values for type: begin, end, play, pause, seek
         if (typeof type === "string" && typeof callback === "function") {
             this._callbacks.push({
                 type,
@@ -104,8 +131,12 @@ export class Intermezzo {
         }
     }
 
+    /**
+     * Unregisters a callback function.
+     * @param {string} type  One of the following values: begin, end, play, pause, seek, stop
+     * @param {function} callback 
+     */
     unregisterCallback(type, callback) {
-        // Unregisters a callback function for one of the following values for type: begin, end, play, pause, seek
         if (typeof type === "string" && typeof callback === "function") {
             let i = this._callbacks.length;
             while (i--) {
