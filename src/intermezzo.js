@@ -114,7 +114,7 @@ export class Intermezzo {
      * @returns {number} The duration of the timeline in milliseconds.
      */
     getDuration() {
-        return Math.max(this._index.map((val) => {return val.time + val.duration}));
+        return Math.max(...this._index.map((val) => {return val.time + val.duration}));
     }
 
     /**
