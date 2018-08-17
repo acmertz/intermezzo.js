@@ -3,6 +3,7 @@
   "version": "0.2.2",
   "description": "Virtual timeline for triggering scheduled events",
   "main": "index.js",
+  "files": ["dist"],
   "scripts": {
     "build": "webpack --config webpack.config.dev.js",
     "prepublish": "webpack --config webpack.config.dev.js && webpack --config webpack.config.prod.js",
