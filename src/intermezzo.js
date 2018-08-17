@@ -212,3 +212,5 @@ export class Intermezzo {
         }
     }
 }
+
+export default Intermezzo;

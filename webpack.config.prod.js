@@ -1,18 +1,14 @@
-const path = require('path'),
-      CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     mode: 'production',
-    entry: './src/index.js',
+    entry: './build.js',
     devServer: {
         contentBase: './'
     },
-    plugins: [
-        new CleanWebpackPlugin(['dist'])
-    ],
     devtool: 'source-map',
     output: {
-        filename: 'intermezzo.js',
+        filename: 'intermezzo.min.js',
         path: path.resolve(__dirname, 'dist'),
         library: 'Intermezzo',
         libraryTarget: 'umd'

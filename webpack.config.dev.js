@@ -1,15 +1,11 @@
-const path = require('path'),
-      CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: './build.js',
     devServer: {
         contentBase: './'
     },
-    plugins: [
-        new CleanWebpackPlugin(['dist'])
-    ],
     devtool: 'eval-source-map',
     output: {
         filename: 'intermezzo.js',
