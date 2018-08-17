@@ -1,6 +1,6 @@
 {
   "name": "intermezzo",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Virtual timeline for triggering scheduled events",
   "main": "index.js",
   "scripts": {
