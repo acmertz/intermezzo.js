@@ -1,9 +1,9 @@
 {
   "name": "intermezzo",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Virtual timeline for triggering scheduled events",
   "main": "index.js",
-  "files": ["dist"],
+  "files": ["dist", "index.d.ts"],
   "scripts": {
     "build": "webpack --config webpack.config.dev.js",
     "prepublish": "webpack --config webpack.config.dev.js && webpack --config webpack.config.prod.js",
