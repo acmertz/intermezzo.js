@@ -6,7 +6,7 @@
   "files": ["dist", "index.d.ts"],
   "scripts": {
     "build": "webpack --config webpack.config.dev.js",
-    "prepublish": "webpack --config webpack.config.dev.js && webpack --config webpack.config.prod.js",
+    "prepublishOnly": "webpack --config webpack.config.dev.js && webpack --config webpack.config.prod.js",
     "start": "webpack-dev-server --config webpack.config.dev.js --open"
   },
   "browserslist": [
