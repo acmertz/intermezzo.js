@@ -3,9 +3,6 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     entry: './build.js',
-    devServer: {
-        contentBase: './'
-    },
     devtool: 'eval-source-map',
     output: {
         filename: 'intermezzo.js',

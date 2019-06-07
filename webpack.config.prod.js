@@ -3,9 +3,6 @@ const path = require('path');
 module.exports = {
     mode: 'production',
     entry: './build.js',
-    devServer: {
-        contentBase: './'
-    },
     devtool: 'source-map',
     output: {
         filename: 'intermezzo.min.js',

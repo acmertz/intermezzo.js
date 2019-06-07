@@ -5,7 +5,8 @@
         <meta name="viewport" content="width=device-width">
         <title>intermezzo.js</title>
         <style>
-            body{font-family:sans-serif}
+            body{font-family:sans-serif;padding:2em}
+            .container{width:1280px;max-width:100%;margin-left:auto;margin-right:auto;}
             .output {
                 display: block;
                 border: 1px dotted gray;
@@ -15,55 +16,13 @@
                 overflow-x: auto;
                 background-color: #eee;
             }
+            @media screen and (max-width: 1024px) {body{padding:1em}}
         </style>
-    </head>
-    <body>
-        <h1>intermezzo.js</h1>
-        <p>
-            <button type="button" onclick="intermezzo.play()">Play</button>
-            <button type="button" onclick="intermezzo.pause()">Pause</button>
-            <button type="button" onclick="output.innerHTML += 'Time: ' + intermezzo.currentTime + '<br>';scrollToBottom();">Log time</button>
-            <button type="button" onclick="output.innerHTML += 'Duration: ' + intermezzo.getDuration() + '<br>';scrollToBottom();">Log duration</button>
-        </p>
-        <hr>
-        <p>
-            <input type="number" value="0" class="seek-time">
-            <button type="button" onclick="intermezzo.seek(parseFloat(seekTime.value))">Seek</button>
-        </p>
-        <hr>
-        <p>
-            <label><span>Start time:</span><br><input type="number" value="2000" class="start-time"></label>
-        </p>
-        <p>
-            <label><span>Duration:</span><br><input type="number" value="2000" class="duration-time"></label>
-        </p>
-        <p>
-            <button type="button" onclick="intermezzo.addEvent(parseFloat(startTime.value), parseFloat(durationTime.value), null)">Add event</button>
-        </p>
-
-        <h2>Output</h2>
-        <p><code class="output"></code></p>
-        <p><button type="button" onclick="output.innerHTML = ''">Clear</button></p>
-
-        <h2>Examples</h2>
-        <h3>Create a new instance of intermezzo.js:</h3>
-        <code>var intermezzo = new Intermezzo()</code>
-
-        <h3>Add an event to the timeline:</h3>
-        <code>var eventId = intermezzo.addEvent(time, duration, callback)</code>
-
-        <h3>Begin playback:</h3>
-        <code>intermezzo.play()</code>
-
-        <h3>Pause playback:</h3>
-        <code>intermezzo.pause()</code>
-        
-        <h3>Seek to a time in milliseconds:</h3>
-        <code>intermezzo.seek(time)</code>
-
-        <script src="intermezzo.js"></script>
+        <script defer src="./dist/intermezzo.js"></script>
         <script>
-            var intermezzo = new Intermezzo(),
+            var intermezzo;
+            document.addEventListener("DOMContentLoaded", function (event) {
+                intermezzo = new Intermezzo(),
                 output = document.getElementsByClassName("output")[0],
                 seekTime = document.getElementsByClassName("seek-time")[0],
                 startTime = document.getElementsByClassName("start-time")[0],
@@ -109,6 +68,53 @@
             intermezzo.registerCallback("stop", (obj) => processOutput(obj));
             intermezzo.registerCallback("seek", (obj) => processOutput(obj));
             intermezzo.registerCallback("time", (obj) => processOutput(obj));
+            })
         </script>
+    </head>
+    <body>
+        <section class="container">
+            <h1>intermezzo.js</h1>
+            <p>
+                <button type="button" onclick="intermezzo.play()">Play</button>
+                <button type="button" onclick="intermezzo.pause()">Pause</button>
+                <button type="button" onclick="output.innerHTML += 'Time: ' + intermezzo.currentTime + '<br>';scrollToBottom();">Log time</button>
+                <button type="button" onclick="output.innerHTML += 'Duration: ' + intermezzo.getDuration() + '<br>';scrollToBottom();">Log duration</button>
+            </p>
+            <hr>
+            <p>
+                <input type="number" value="0" class="seek-time">
+                <button type="button" onclick="intermezzo.seek(parseFloat(seekTime.value))">Seek</button>
+            </p>
+            <hr>
+            <p>
+                <label><span>Start time:</span><br><input type="number" value="2000" class="start-time"></label>
+            </p>
+            <p>
+                <label><span>Duration:</span><br><input type="number" value="2000" class="duration-time"></label>
+            </p>
+            <p>
+                <button type="button" onclick="intermezzo.addEvent(parseFloat(startTime.value), parseFloat(durationTime.value), null)">Add event</button>
+            </p>
+
+            <h2>Output</h2>
+            <p><code class="output"></code></p>
+            <p><button type="button" onclick="output.innerHTML = ''">Clear</button></p>
+
+            <h2>Examples</h2>
+            <h3>Create a new instance of intermezzo.js:</h3>
+            <code>var intermezzo = new Intermezzo()</code>
+
+            <h3>Add an event to the timeline:</h3>
+            <code>var eventId = intermezzo.addEvent(time, duration, callback)</code>
+
+            <h3>Begin playback:</h3>
+            <code>intermezzo.play()</code>
+
+            <h3>Pause playback:</h3>
+            <code>intermezzo.pause()</code>
+            
+            <h3>Seek to a time in milliseconds:</h3>
+            <code>intermezzo.seek(time)</code>
+        </section>
     </body>
 </html>
